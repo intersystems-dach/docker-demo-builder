@@ -1,0 +1,13 @@
+FROM <IRIS_DOCKER_IMAGE>
+
+COPY --chown="${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP}" ./projects /opt/irisbuild/projects
+COPY --chmod=765 ./install_projects.sh /opt/irisbuild/install_projects.sh
+
+RUN iris start IRIS \
+    && /opt/irisbuild/install_projects.sh \
+    && iris stop IRIS quietly
+
+COPY --chown="${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP}" <LICENSE_FILE> /usr/irissys/mgr/iris.key
+COPY --chown="${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP}" <PASSWORD_FILE>  /home/irisowner/password.txt
+RUN /usr/irissys/dev/Container/changePassword.sh /home/irisowner/password.txt \
+    && rm /home/irisowner/password.txt.done

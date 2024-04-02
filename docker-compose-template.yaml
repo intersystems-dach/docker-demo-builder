@@ -1,0 +1,21 @@
+services: 
+  irishealth-demo:
+    build: .
+    image: <IMAGE_NAME>:<IMAGE_TAG>
+    container_name: <CONTAINER_NAME>
+    ports:
+    # the webserver port
+    - "<WEBSERVER_PORT>:52773"
+
+    ### Mount durable volume ###
+    # volumes:
+    # - ./data/durable:/durable
+
+    ### Enable durable SYS (requires durable volume) ###
+    # environment:
+    # - ISC_DATA_DIRECTORY=/durable/iris_conf.d
+
+    ### Password & License (requires durable volume) ###
+    #command:  --key /durable/iris.key --password-file /durable/password.txt
+
+

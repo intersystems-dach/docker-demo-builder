@@ -1,0 +1,9 @@
+ // Create a HS enabled namespace with foundation production
+ zn "HSLIB"
+ set tSC=##class(HS.Util.Installer.Foundation).Install("COMSRV_DEMO",.pVars)
+
+ zn "COMSRV_DEMO"
+
+ do $System.OBJ.LoadDir("<#PROJECTDIR#>/src","ck",,1)
+ do ##class(Ens.Director).SetAutoStart("COMSRVuDEMOPKG.FoundationProduction",1)
+ set ^EnsPortal.Settings("SuperUser","LastProduction")	= "COMSRVuDEMOPKG.FoundationProduction"

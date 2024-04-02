@@ -1,0 +1,11 @@
+ // This is a sample project to creates an IRIS nanmesapce using a manifest
+ // <#PROJECTDIR#> placeholder will be replaced at runtime with the path of the procect's directory.
+ do ##class(%SYSTEM.Process).CurrentDirectory("<#PROJECTDIR#>")
+ do $SYSTEM.OBJ.Load("./Installer.cls", "ck")
+ set sc = ##class(App.Installer).setup()
+
+ zn "INTEROP_DEMO"
+
+ do $System.OBJ.LoadDir("<#PROJECTDIR#>/src","ck",,1)
+ do ##class(Ens.Director).SetAutoStart("Demo.SampleProduction",1)
+ set ^EnsPortal.Settings("SuperUser","LastProduction")	= "Demo.SampleProduction"
