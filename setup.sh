@@ -71,12 +71,8 @@ sed "s|<WEBSERVER_PORT>|$WEBSERVER_PORT|" \
 # Docker build
 $DOCKERCMD compose --progress=plain build
 
-# Clean up and remove build tag from compose file
+# Clean up
 rm ./password.txt
-mv docker-compose.yaml docker-compose.yaml.tmp
-cat docker-compose.yaml.tmp | \
-sed "/build:/d" > docker-compose.yaml
-rm docker-compose.yaml.tmp
 
 # Run docker compose if enabled
 if [[ "$RUN_COMPOSE_UP" -eq 1 ]]; then
