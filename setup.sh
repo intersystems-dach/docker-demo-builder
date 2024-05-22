@@ -65,7 +65,8 @@ cat docker-compose-template.yaml | \
 sed "s|<CONTAINER_NAME>|$CONTAINER_NAME|" | \
 sed "s|<IMAGE_NAME>|$IMAGE_NAME|" | \
 sed "s|<IMAGE_TAG>|$IMAGE_TAG|" | \
-sed "s|<WEBSERVER_PORT>|$WEBSERVER_PORT|" \
+sed "s|<WEBSERVER_PORT>|$WEBSERVER_PORT|" | \
+sed "s|<SUPERSERVER_PORT>|$SUPERSERVER_PORT|" \
 > docker-compose.yaml
 
 # Docker build

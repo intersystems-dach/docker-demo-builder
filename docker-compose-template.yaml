@@ -6,6 +6,8 @@ services:
     ports:
     # the webserver port
     - "<WEBSERVER_PORT>:52773"
+    # Superserver port
+    - "<SUPERSERVER_PORT>:1927"
 
     ### Mount durable volume ###
     # volumes:
