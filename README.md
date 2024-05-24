@@ -1,4 +1,4 @@
-# InterSystems IRIS Docker Image Builder
+# InterSystems IRIS Docker Demo Builder
 
 This is a template project to create InterSystems IRIS docker demos. It supports InterSystems IRIS and IRIS for Health, both the Standard and the Community Edition. The web gateway will always have SSL enabled, the setup script can generate a self-signed certiificate or obtain a valid certificate via Let's Encrypt. Persistent volumes will be mounted from `./volumes/iris` to `<iris-container>:/iris-shared` and `./volumes/webgateway` to `<webgateway-container>:/webgateway-shared`. `Durable %SYS`is not used by default and must be added manually to `docker-compose.yaml`. This template include two sample projects. Have a look at `./projects` for details.
 
