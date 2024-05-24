@@ -5,6 +5,8 @@
 # Project files
 volumes/*
 **/*.key
+**/*.tgz
+**/*.tar.gz
 
 # OS files
 .DS_Store
