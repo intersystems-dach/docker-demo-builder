@@ -24,8 +24,8 @@ docker compose down
 docker image rm ${OUTPUT_IMAGE_NAME}:${OUTPUT_IMAGE_TAG} 2>/dev/null
 
 # Create mount volumes
-mkdir -p -m "775" ./volumes/webgateway
-mkdir -p -m "775" ./volumes/iris/license
+mkdir -p ./volumes/webgateway
+mkdir -p ./volumes/iris/license
 
 # Copy web gateway and license files
 cp ./resources/CSP.conf ./volumes/webgateway/CSP.conf
@@ -41,16 +41,13 @@ fi
 if [[ "$USE_LETS_ENCRYPT" -eq 1 ]]; then
     create_letsencrypt_cert $WEBGATEWAY_HOSTNAME $LETS_ENCRYPT_EMAIL
 else
-    openssl req -x509 -newkey rsa:2048 -keyout ./volumes/webgateway/web-gateway-key.pem -out ./volumes/webgateway/web-gateway-cert.pem -sha256 -days 3650 -nodes -subj "/CN=${WEBGATEWAY_HOSTNAME}"    
+    # MSYS_NO_PATHCONV=1 is workaround for cygwin and git bash, see https://github.com/git-for-windows/git/issues/577#issuecomment-166118846
+    MSYS_NO_PATHCONV=1 openssl req -x509 -newkey rsa:2048 -keyout ./volumes/webgateway/web-gateway-key.pem -out ./volumes/webgateway/web-gateway-cert.pem -sha256 -days 3650 -nodes -subj "/CN=${WEBGATEWAY_HOSTNAME}"   
 fi
 
 # Build and create containers
-docker compose build
+docker compose --progress=plain build
 docker compose up -d
 
 # Export image
 echo "To export the image run 'docker save ${OUTPUT_IMAGE_NAME}:${IMAGE_TAG} | gzip > ${OUTPUT_IMAGE_NAME}_${IMAGE_TAG}.tgz'"
-
-# Fix ownerships (if this script was run as sudo)
-chown -R $USER ./volumes
-
