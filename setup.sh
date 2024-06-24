@@ -49,5 +49,11 @@ fi
 docker compose --progress=plain build
 docker compose up -d
 
+# Link to portal
+echo
+echo "http://localhost:${WEBSERVER_PORT}/csp/sys/UtilHome.csp"
+echo "https://localhost:${WEBSERVER_PORT_HTTPS}/csp/sys/UtilHome.csp"
+echo
+
 # Export image
-echo "To export the image run 'docker save ${OUTPUT_IMAGE_NAME}:${IMAGE_TAG} | gzip > ${OUTPUT_IMAGE_NAME}_${IMAGE_TAG}.tgz'"
+echo "To export the image run 'docker save ${OUTPUT_IMAGE_NAME}:${IMAGE_TAG} | gzip > ${OUTPUT_IMAGE_NAME}_${OUTPUT_IMAGE_TAG}.tgz'"
