@@ -3,6 +3,7 @@
 *.code-workspace
 
 # Project files
+**/*.secret
 volumes/*
 **/*.key
 **/*.tgz

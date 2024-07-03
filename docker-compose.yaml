@@ -5,7 +5,8 @@ services:
       args:
         IRIS_IMAGE: "${IRIS_IMAGE}"
         IRIS_TAG: "${IRIS_IMAGE_TAG}"
-        IRIS_PW: "${IRIS_PW}"
+      secrets:
+        - iris_pw
     image: ${OUTPUT_IMAGE_NAME}:${OUTPUT_IMAGE_TAG}
     container_name: ${CONTAINER_NAME}
     volumes:
@@ -16,6 +17,8 @@ services:
 
   webgateway:
     image: containers.intersystems.com/intersystems/webgateway:${IRIS_IMAGE_TAG}
+    secrets:
+      - iris_pw
     hostname: ${WEBGATEWAY_HOSTNAME}
     container_name: ${CONTAINER_NAME}-wg
     ports:
@@ -28,3 +31,6 @@ services:
     - ./volumes/webgateway:/webgateway-shared
     restart: ${RESTART_POLICY}
 
+secrets:
+   iris_pw:
+     file: "${IRIS_PW_FILE}"

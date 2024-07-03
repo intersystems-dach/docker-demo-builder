@@ -19,6 +19,13 @@ if [[ "$USE_LETS_ENCRYPT" -eq 1 ]]; then
     fi
 fi
 
+if [ ! -f ${IRIS_PW_FILE} ]; then
+    read -s -p "Enter IRIS default password (output will not be visible): " IRIS_PW
+    echo "$IRIS_PW" > ${IRIS_PW_FILE}
+    unset IRIS_PW
+fi
+
+
 # Down running containers and clean up old images
 docker compose down
 docker image rm ${OUTPUT_IMAGE_NAME}:${OUTPUT_IMAGE_TAG} 2>/dev/null
@@ -29,7 +36,7 @@ mkdir -p ./volumes/iris/license
 
 # Copy web gateway and license files
 cp ./resources/CSP.conf ./volumes/webgateway/CSP.conf
-sed "s|^Password=.*|Password=${IRIS_PW}|" ./resources/CSP.ini > ./volumes/webgateway/CSP.ini
+cp ./resources/CSP.ini ./volumes/webgateway/CSP.ini
 
 if [ -n "$LICENSE_KEY_PATTERN" ]; then
     KEY_FILE=$(find . -depth 1 -name "$LICENSE_KEY_PATTERN" | head -n 1)
@@ -46,7 +53,8 @@ else
 fi
 
 # Build and create containers
-docker compose --progress=plain build
+# The CACHEBUST build arg is used to invalidate the build cache if the password has changed.
+docker compose --progress=plain build --build-arg "CACHEBUST=$(date -r $IRIS_PW_FILE | openssl sha256)"
 docker compose up -d
 
 # Link to portal
