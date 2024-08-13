@@ -4,16 +4,23 @@ find "/home/${ISC_PACKAGE_MGRUSER}/irisbuild/projects" -maxdepth 2 -iname "iris.
 while IFS= read -r -d '' irisscript; do
     directory=$(dirname "$irisscript")
     echo "Found project: $(basename "$directory")"
-    if [ -f "$directory/prepare.sh" ]; then
-        echo "Found prepare.sh script"
+    if [ -f "$directory/pre.sh" ]; then
+        echo "Found pre script"
         cur_dir=$(pwd)
         cd "$directory"
-        source "$directory/prepare.sh"
+        source "$directory/pre.sh"
         cd "$cur_dir"
     fi
-    iris session IRIS <<< $(cat $irisscript | sed "s|<#PROJECTDIR#>|$directory|g")
-done
 
-#rm -r /opt/irisbuild/projects
+    iris session IRIS <<< $(cat $irisscript | sed "s|<#PROJECTDIR#>|$directory|g")
+    
+    if [ -f "$directory/post.sh" ]; then
+        echo "Found post script"
+        cur_dir=$(pwd)
+        cd "$directory"
+        source "$directory/post.sh"
+        cd "$cur_dir"
+    fi
+done
 
 exit
