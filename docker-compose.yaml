@@ -16,7 +16,7 @@ services:
     restart: ${RESTART_POLICY}
 
   webgateway:
-    image: containers.intersystems.com/intersystems/webgateway:${IRIS_IMAGE_TAG}
+    image: ${WG_IMAGE}:${WG_IMAGE_TAG}
     secrets:
       - iris_pw
     hostname: ${WEBGATEWAY_HOSTNAME}

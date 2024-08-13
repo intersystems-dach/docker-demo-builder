@@ -2,10 +2,10 @@ ARG IRIS_IMAGE
 ARG IRIS_TAG
 FROM ${IRIS_IMAGE}:${IRIS_TAG}
 
-COPY --chown="${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP}" ./projects /opt/irisbuild/projects
-COPY --chmod=765 ./resources/install_projects.sh /opt/irisbuild/install_projects.sh
+COPY --chown="${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP}" ./projects /home/"${ISC_PACKAGE_MGRUSER}"/irisbuild/projects
+COPY --chown="${ISC_PACKAGE_MGRUSER}:${ISC_PACKAGE_IRISGROUP}" ./resources/install_projects.sh /home/"${ISC_PACKAGE_MGRUSER}"/irisbuild/install_projects.sh
 RUN iris start IRIS \
-    && /opt/irisbuild/install_projects.sh \
+    && /home/"${ISC_PACKAGE_MGRUSER}"/irisbuild/install_projects.sh \
     && iris stop IRIS quietly
 
 # This build arg is used to invalidate the cache if the password changed

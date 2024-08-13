@@ -16,11 +16,11 @@ On a Windows machine use `WSL` oder `git bash`. If you want to use Let's encrypt
 If you are using InterSystems container registry images, you must log in to the InterSystems container repository before running `setup.sh`. Go to [containers.intersystems.com](https://containers.intersystems.com), log in, get your Docker login command and run it in a terminal on your local machine. It should look like this:
 
 ```bash
-docker login -u="user" -p="xyz123..." containers.intersystems.com
+docker login -u="user" -p="xyz123..." irepo.intersystems.com
 ```
 
 ## Creating a demo project
 
-Clone the template project to your local machine. Edit the configuration in `.env` according to your requirements. Create a new folder in `./projects` which will contain your project files. Inside this folder, create a new script called `iris.script`. This file must contains objectscript commands and will be called during the Docker build process (make sure to start each line with at least one whitespace character). It is used to import, compile and configure your project. Take a look at the example projects `projects/INTEROP_DEMO` and `projects/COMSRV_DEMO`. Those should be removed before creating your docker container. Alternatively, you can rename the `iris.script` in the demo folders to e.g. `iris.script.old`.
+Clone the template project to your local machine. Edit the configuration in `.env` according to your requirements. Create a new folder in `./projects` which will contain your project files. Inside this folder, create a new script called `iris.script`. This file must contains objectscript commands and will be called during the Docker build process (make sure to start each line with at least one whitespace character). It is used to import, compile and configure your project. Optionally, you can also create a bash script called `prepare.sh`. It is called before the execution of `iris.script`. Take a look at the example projects `projects/INTEROP_DEMO` and `projects/COMSRV_DEMO`. Those example porjects should be removed before creating your docker container. Alternatively, you can rename the `iris.script` in the demo folders to e.g. `iris.script.old`.
 
 
