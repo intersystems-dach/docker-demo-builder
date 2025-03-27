@@ -49,7 +49,7 @@ if [[ "$USE_LETS_ENCRYPT" -eq 1 ]]; then
     create_letsencrypt_cert $WEBGATEWAY_HOSTNAME $LETS_ENCRYPT_EMAIL
 else
     # MSYS_NO_PATHCONV=1 is workaround for cygwin and git bash, see https://github.com/git-for-windows/git/issues/577#issuecomment-166118846
-    MSYS_NO_PATHCONV=1 openssl req -x509 -newkey rsa:2048 -keyout ./volumes/webgateway/web-gateway-key.pem -out ./volumes/webgateway/web-gateway-cert.pem -sha256 -days 3650 -nodes -subj "/CN=${WEBGATEWAY_HOSTNAME}"   
+    MSYS_NO_PATHCONV=1 openssl req -x509 -newkey rsa:2048 -keyout ./volumes/webgateway/web-gateway-key.pem -out ./volumes/webgateway/web-gateway-cert.pem -sha256 -days 3650 -nodes -subj "/CN=${WEBGATEWAY_HOSTNAME}" -addext "subjectAltName=DNS:${WEBGATEWAY_HOSTNAME}"   
 fi
 
 # Build and create containers
